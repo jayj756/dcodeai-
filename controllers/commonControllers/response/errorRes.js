@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const envfile = require('../../../../backendNode/static/envfile.js');
+const envfile = require('../../../../backend/static/envfile.js');
 module.exports = {
     insufficientDetail: async function (res) {
         res.status(400).send({
@@ -23,6 +23,7 @@ module.exports = {
             'success': false,
             'message': obj.mes,
             'result': obj.data,
+
         })
         //return;
         // throw new Error("Bad Request");

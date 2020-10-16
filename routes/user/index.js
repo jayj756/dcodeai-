@@ -4,6 +4,10 @@ var userindex = express.Router();
 
 ///routes
 var auth = require('../user/auth/auth');
+var schoolAuth = require('../user/auth/schoolAuth');
+var teacherLogin = require('../user/auth/teacherLogin');
+var teacherAuth = require('../user/auth/teacherAuth');
+var addSchoolDetails = require('../user/auth/addSchoolDetails');
 
 ///routes
 
@@ -15,6 +19,11 @@ var auth = require('../user/auth/auth');
 
 //without middleware
 userindex.use('/',auth);
+userindex.use('/school',schoolAuth);
+userindex.use('/teacher',userMiddleware,teacherAuth);
+userindex.use('/classes',userMiddleware,addSchoolDetails);
+userindex.use('/teacherLogin',teacherLogin);
+
 // userindex.use('/user',userMasterRoutes);
 
 module.exports = userindex;

@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const envfile = require('../../../backendNode/static/envfile.js');
+const envfile = require('../../../backend/static/envfile.js');
 module.exports = {
 
     createJwt: async function (obj) {

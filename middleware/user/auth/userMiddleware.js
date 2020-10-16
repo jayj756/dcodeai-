@@ -13,7 +13,6 @@ const userMiddleware = function tokenValidator(req, res, next) {
             // add user id to request
             //if (decoded.logiinFor == "user") {
                 let obj=decoded.authUser;
-                obj.CompanyCode=decoded.companycode;
                 obj.loginTimestamp=decoded.timestamp;
                 obj.source=decoded.source;
                 obj.logiinFor=decoded.logiinFor;

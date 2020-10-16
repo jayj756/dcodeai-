@@ -36,7 +36,16 @@ module.exports = {
             'success': true,
             'message': obj.mes,
             'result': obj.data,
-            'result2': obj.data2,
+            'schema': obj.data2,
+        })
+        // throw new Error("Success");
+    },
+    successErrorMessage: async function (res, obj) {
+        res.status(200).send({
+            'success': false,
+            'message': obj.mes,
+            'result': obj.data,
+            'schema': obj.data2,
         })
         // throw new Error("Success");
     },

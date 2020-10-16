@@ -6,7 +6,7 @@ let schemaModel = new schema({
     firstName: {type: String, default: "",require:true},
     lastName:{type: String, default: "",require:true},
     email : {type: String, default: "",require:true},
-    phoneNumber : {type: Date, default: ""},
+    phoneNumber : {type: String, default: ""},
     password : {type: String, default: "",require:true},
     roleType : {type: String, default: "",},
     isDeleted:{type: Boolean, default:false},

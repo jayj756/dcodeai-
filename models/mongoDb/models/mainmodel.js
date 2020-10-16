@@ -1,4 +1,4 @@
-let envfile = require('../../../../backendNode/static/envfile');
+let envfile = require('../../../../backend/static/envfile');
 
 //mongoDb
 /*let MongoClient = require('mongodb').MongoClient;
@@ -24,7 +24,9 @@ mongoose.set('useCreateIndex', true);
 
 mongoose.connect(envfile.mongo.url,options);
 
-let schemas = ['usersProfile',
+let schemas = ['superAdmin',
+    'schoolList',
+    'teacherList'
 ];
 let mongoDb={};
 for (const schema of schemas) {

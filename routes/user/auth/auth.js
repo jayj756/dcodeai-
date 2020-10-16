@@ -4,30 +4,14 @@ var user = express.Router();
 //controllers
 const superloginController = require("../../../controllers/userControllers/auth/superAdmin/login");
 ///routes
-/**
- * @swagger
- * /Admin Side:
- *  post:
- *    description: Use to Login
- *    responses:
- *      '200':
- *        description: A successful response
- */
+
 user.post('/login', superloginController.login);
 user.post('/create', superloginController.create);
+user.post('/sendOtp', superloginController.sendOtp);
+user.post('/checkOtp', superloginController.checkOtp);
+user.post('/resetPassword', superloginController.resetPassword);
 
-
-/**
- * @swagger
- * /Admin Side:
- *  Post:
- *    description: Register
- *    responses:
- *      '200':
- *        description: A successful response
- */
-
-//user.post('/login', loginController.login);
+user.post('/registrationFormSuperAdmin', superloginController.registrationFormSuperAdmin);
 
 
 //responce
