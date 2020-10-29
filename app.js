@@ -16,7 +16,7 @@ const swaggerOptions={
       contact:{
         name:"Backend Team"
       },
-      server:["localhost:3000"]
+      server:["localhost:4000"]
     }
   },
   apis:["app.js"]
@@ -25,11 +25,8 @@ const swaggerDocs=swaggerJsDocs(swaggerOptions);
 var indexRouter = require('./routes/index/index');
 // var logycodeRouter = require('./routes/logycode/logycode');
 var usersRouter = require('./routes/user/index');
-// var customersRouter = require('./routes/customer/index');
-// var company = require('./routes/company/index');
-// var unauthenticatedRoutes = require('./routes/unauthenticated/index');
-// var notificationRoutes = require('./routes/notificationRoutes/index');
-// var s3bucket = require('./controllers/commonControllers/fileUpload/s3Bucket');
+
+var s3bucket = require('./controllers/commonControllers/s3Bucket');
 
 
 var cors = require('cors');
@@ -60,13 +57,8 @@ app.use('/', indexRouter);
  *        description: A successful response
  */
 app.use('/users', usersRouter);
-// app.use('/lyc', logycodeRouter);
-// app.use('/customer', customersRouter);
-// app.use('/company', company);
-// app.use('/unAuth', unauthenticatedRoutes);
-// app.use('/notification',notificationRoutes );
-// app.post('/s3Bucket', s3bucket.uploadFileAWS);
-// app.post('/s3BucketMultiple', s3bucket.uploadFileAWSMultiple);
+app.post('/s3Bucket', s3bucket.uploadFileAWS);
+
 
 //test
 

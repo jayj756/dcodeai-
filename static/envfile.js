@@ -8,16 +8,28 @@ var dbConnection={
     "writeDbCompany":"dcodeAI"
 }
 
+// var MongoDbConnection={
+//
+//
+//     "url":"mongodb://localhost:27017/dcodeAI",
+//
+//     "user":"",
+//     "pass":"",
+//
+// }
+
 var MongoDbConnection={
 
 
-    "url":"mongodb://localhost:27017/dcodeAI",
+    // "url":"mongodb://localhost:27017/dcodeAI",
+    "url":"mongodb://35.154.102.141:27017/admin",
+    "user":"admin",
+    "pass":"changeme",
 
-    "user":"",
-    "pass":"",
+    // "user":"",
+    // "pass":"",
 
 }
-
 
 var nodeMailerBackup={
     "host": 'smtp3.netcore.co.in',
@@ -34,12 +46,12 @@ var nodeMailerBackup={
 
 
 var nodeMailer={
-    "host": 'smtpcorp.netcore.co.in',
+    "host": 'smtp.gmail.com',
     "port": 587,
     "secure": false,
     "auth": {
-        "user": 'smtp_auth@logycode.com',
-        "pass": '@My$a021a&'
+        "user": 'admin@dcodeai.com',
+        "pass": '2UV8ai*vMr#q4L'
     },
     "tls": {
         "rejectUnauthorized": false
@@ -54,8 +66,8 @@ var jwtSecretKey = "my-32-character-ultra-secure-and-ultra-long-secret"
 var awsCred={
     "awsS3BucketId":"AKIATZ3NAWXURGRBATXQ",
     "awsS3BucketSecret":"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",
-    "awsS3BucketName":"----",
-    "awsGeneratedFilesStartingLink":"https://logycodetest.s3.amazonaws.com/"
+    "awsS3BucketName":"decodeai",
+    "awsGeneratedFilesStartingLink":"https://decodeai.s3.amazonaws.com/"
 }
 
 var otpApiKey= {

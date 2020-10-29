@@ -17,6 +17,11 @@ module.exports = {
         let classDetail   = req.body.classDetail;
         let phoneNumber   = req.body.phoneNumber;
         let password   = req.body.password;
+        let type   = req.body.type;
+        let schoolDetail = {
+            "_id":req.body.authUser._id,
+            "schoolName":req.body.authUser.schoolName,
+        }
 
         await validate.nullOrBlankAll(res, req.body, "name","email","classDetail","phoneNumber","password");
 
@@ -24,7 +29,7 @@ module.exports = {
 
         let requiredParam = 'phoneNumber'
 
-        let oldRes = await models.mongo.studentList.findOne({$and:{phoneNumber: phoneNumber, name: name}}, requiredParam);
+        let oldRes = await models.mongo.studentList.findOne({'$and':[{phoneNumber: phoneNumber}, {name: name}]}, requiredParam);
 
         console.log(oldRes)
         if (oldRes == null) {
@@ -32,8 +37,10 @@ module.exports = {
                 name: name,
                 email: email,
                 classDetail: classDetail,
+                schoolDetail: schoolDetail,
                 phoneNumber: phoneNumber,
                 password: hashedPassword,
+                type:"school"
 
             });
             data.save(function (err, results) {

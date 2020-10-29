@@ -1,11 +1,6 @@
 let envfile = require('../../../../backend/static/envfile');
 
-//mongoDb
-/*let MongoClient = require('mongodb').MongoClient;
-MongoClient.connect(envfile.mongo.url, function(err, db) {
-    if (err) throw err;
-    //module.exports.mongoDb=db.db("logyNode");
-});*/
+
 
 //mongoose
 let mongoose = require('mongoose');//.set('debug', true);
@@ -26,7 +21,9 @@ mongoose.connect(envfile.mongo.url,options);
 
 let schemas = ['superAdmin',
     'schoolList',
-    'teacherList'
+    'teacherList',
+    'studentList',
+    'otpModel'
 ];
 let mongoDb={};
 for (const schema of schemas) {

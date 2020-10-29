@@ -123,7 +123,7 @@ module.exports = {
     create: async function (req, res, next) {
 
 
-        console.log(req.body)
+        //console.log(req.body)
 
         let schoolName = req.body.schoolName;
         let schoolEmail = req.body.schoolEmail;

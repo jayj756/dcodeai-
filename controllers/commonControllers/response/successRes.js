@@ -70,5 +70,14 @@ module.exports = {
         })
         // throw new Error("Success");
     },
+    provideAccessTokenAfterReg: async function (res, obj) {
+        res.status(200).send({
+            'success': true,
+            'message': "Register Successfully",
+            'result': obj.data,
+            'accessToken': obj.jwtToken,
+        })
+        // throw new Error("Success");
+    },
 };
 

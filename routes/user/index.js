@@ -8,6 +8,8 @@ var schoolAuth = require('../user/auth/schoolAuth');
 var teacherLogin = require('../user/auth/teacherLogin');
 var teacherAuth = require('../user/auth/teacherAuth');
 var addSchoolDetails = require('../user/auth/addSchoolDetails');
+var studentLogin = require('../user/auth/studentLogin');
+var individualProfile = require('../user/auth/individualProfile');
 
 ///routes
 
@@ -22,7 +24,9 @@ userindex.use('/',auth);
 userindex.use('/school',schoolAuth);
 userindex.use('/teacher',userMiddleware,teacherAuth);
 userindex.use('/classes',userMiddleware,addSchoolDetails);
+userindex.use('/profile',userMiddleware,individualProfile);
 userindex.use('/teacherLogin',teacherLogin);
+userindex.use('/studentLogin',studentLogin);
 
 // userindex.use('/user',userMasterRoutes);
 

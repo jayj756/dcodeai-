@@ -148,6 +148,10 @@ module.exports = {
 
     login: async function (req, res, next) {
 
+
+
+
+
         let phoneNumber = req.body.phoneNumber;
         let password = req.body.password;
         let source = req.body.source;
@@ -200,36 +204,60 @@ module.exports = {
     },
     sendOtp: async function (req, res, next) {
 
+
+        let otp = Math.floor(100000 + Math.random() * 900000)
+
         let phoneNumber = req.body.phoneNumber;
         let type = req.body.type;
 
         await validate.nullOrBlankAll(res, req.body, "phoneNumber","type");
 
-        let exist = 0
+        let exist = null
 
         if(type == "superAdmin")
         {
-             exist  = await models.mongo.superAdmin.find({phoneNumber:phoneNumber}).countDocuments();
+            exist  = await models.mongo.superAdmin.findOne({phoneNumber:phoneNumber})
         }
         else if(type == "school")
         {
-            exist  = await models.mongo.schoolList.find({phoneNumber:phoneNumber}).countDocuments();
+            exist = await models.mongo.schoolList.findOne({phoneNumber:phoneNumber})
 
         }
         else if(type == "teacher")
         {
-            exist  = await models.mongo.teacherList.find({phoneNumber:phoneNumber}).countDocuments();
-
+            exist = await models.mongo.teacherList.findOne({phoneNumber:phoneNumber})
+        }
+        else if(type == "student")
+        {
+            exist = await models.mongo.studentList.findOne({$or:[{phoneNumber:phoneNumber},{email:phoneNumber}]})
         }
         else
         {
             await errorRes.errorCustomMessage(res, {mes: "Role Not Exist", err: {}})
         }
 
-        console.log(exist)
-        if(exist > 0)
+
+        console.log(exist.email)
+        console.log(exist.phoneNumber)
+
+        if(exist != null)
         {
-            let url = "https://2factor.in/API/V1/"+envfile.otpsend.key+"/SMS/"+phoneNumber+"/AUTOGEN";
+
+            var data = await new models.mongo.otpModel({
+                phoneNumber:exist.phoneNumber,
+                email:exist.email,
+                otp:otp
+            });
+            await data.save(function (err, results) {
+                console.log(results._id);
+                if (err) {
+                    errorRes.errorCustomMessage(res, {mes: "Error", err: err})
+                }
+            });
+
+            sendMail(exist.email,otp)
+
+            let url = "https://2factor.in/API/V1/"+envfile.otpsend.key+"/SMS/+91"+exist.phoneNumber+"/"+otp+"/dcodeAI";
 
 
             https.get(url, (resp) => {
@@ -239,7 +267,6 @@ module.exports = {
                 resp.on('data', (chunk) => {
                     data += chunk;
                 });
-
                 // The whole response has been received. Print out the result.
                 resp.on('end', () => {
                     console.log("end"+JSON.stringify(data));
@@ -247,16 +274,13 @@ module.exports = {
                     {
                         let data1 =  {
                             "data":JSON.parse(data)
-
                         }
                         successRes.successErrorMessage(res, {mes: "Invaid",data:JSON.parse(data)});
-
                     }
                     else
                     {
                         successRes.successCustomMessage(res, {mes: "OTP Sent Successfully",data:JSON.parse(data)});
                     }
-
                 });
 
             }).on("error", (err) => {
@@ -274,31 +298,45 @@ module.exports = {
     checkOtp: async function (req, res, next) {
 
         let otp = req.body.otp;
-        let sessionId =req.body.sessionId;
-        await validate.nullOrBlankAll(res, req.body, "otp","sessionId");
+        let phoneNumber =req.body.phoneNumber;
+        await validate.nullOrBlankAll(res, req.body, "otp","phoneNumber");
 
 
-        let url = "https://2factor.in/API/V1/"+envfile.otpsend.key+"/SMS/VERIFY/"+sessionId+"/"+otp;
+        models.mongo.otpModel.findOne({$and:[{$or:[{phoneNumber:phoneNumber},{email:phoneNumber}]},{otp:otp}]}).lean().then(result=>{
+            if(result != null)
+        {
+            successRes.successCustomMessage(res, {mes: "OTP Verified Successfully",data: {}});
+        }
+            else
+            {
+                errorRes.errorCustomMessage(res, {mes: "Invalid OTP" + err});
+            }
+        }).catch(err=>{
+            errorRes.errorCustomMessage(res, {mes: "Issue in Verified Password" + err});
+        })
+
+        // let url = "https://2factor.in/API/V1/"+envfile.otpsend.key+"/SMS/VERIFY/"+sessionId+"/"+otp;
 
 
-        https.get(url, (resp) => {
-            let data = '';
+        // https.get(url, (resp) => {
+        //     let data = '';
 
-            // A chunk of data has been recieved.
-            resp.on('data', (chunk) => {
-                data += chunk;
-            });
-
-            // The whole response has been received. Print out the result.
-            resp.on('end', () => {
-                console.log("end"+JSON.stringify(data));
-                successRes.successCustomMessage(res, {mes: "OTP Match Result",data:JSON.parse(data)});
-
-            });
-
-        }).on("error", (err) => {
-            console.log("Error: " + err.message);
-        });
+        //
+        //     // A chunk of data has been recieved.
+        //     resp.on('data', (chunk) => {
+        //         data += chunk;
+        //     });
+        //
+        //     // The whole response has been received. Print out the result.
+        //     resp.on('end', () => {
+        //         console.log("end"+JSON.stringify(data));
+        //         successRes.successCustomMessage(res, {mes: "OTP Match Result",data:JSON.parse(data)});
+        //
+        //     });
+        //
+        // }).on("error", (err) => {
+        //     console.log("Error: " + err.message);
+        // });
     },
     resetPassword: async function (req, res, next) {
 
@@ -342,8 +380,6 @@ module.exports = {
     changeSinglePassword: async function (req, res, next) {
 
         let pass = req.body.pass;
-
-
         let  email = req.body.email;
         console.log(pass);
         console.log(email);
@@ -374,6 +410,41 @@ module.exports = {
 
 
     },
+    // sendMail: async function (to,OTP) {
+    //
+    //         let mailMessage = {};
+    //         mailMessage.subject = "OTP";
+    //         mailMessage.to = "rohit.mahajan@dcodeai.com";
+    //         let queryHtmlBodyString = {}
+    //         mailMessage.html = ""
+    //         mailMessage.text = "1234"
+    //         mailMessage.from = "info@dcodeai.com";
+    //         await models.mailer.sendMail(mailMessage, async function (err, info) {
+    //             if (err) {
+    //                 console.log(err)
+    //             } else {
+    //                 console.log(info);
+    //             }
+    //         });
+    //     }
+
 
 };
+    function sendMail (to,OTP) {
+
+    let mailMessage = {};
+    mailMessage.subject = "OTP";
+    mailMessage.to = to;
+    let queryHtmlBodyString = {}
+    mailMessage.html = ""
+    mailMessage.text = String(OTP)
+    mailMessage.from = "info@dcodeai.com";
+    models.mailer.sendMail(mailMessage, async function (err, info) {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log(info);
+        }
+    });
+}
 
