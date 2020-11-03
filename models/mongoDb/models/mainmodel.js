@@ -1,4 +1,4 @@
-let envfile = require('../../../../backend/static/envfile');
+let envfile = require('../../../static/envfile');
 
 
 

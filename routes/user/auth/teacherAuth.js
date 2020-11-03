@@ -7,7 +7,9 @@ const teacherloginController = require("../../../controllers/userControllers/aut
 
 user.post('/create', teacherloginController.create);
 user.post('/registrationFormTeacher', teacherloginController.registrationFormTeacher);
-
+user.post('/teacherupdate', teacherloginController.teacherupdate);
+user.post('/teacherDeactivate', teacherloginController.teacherDeactivate);
+user.post('/teacherDelete', teacherloginController.teacherDelete);
 
 //responce
 module.exports = user;

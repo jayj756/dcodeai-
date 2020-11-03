@@ -168,6 +168,51 @@ module.exports = {
         })
 
 
-    }
+    },
+
+
+    studentDeactivate: async function (req, res, next) {
+        var id = req.body.id;
+        await validate.nullOrBlankAll(res, req.body, 'id');
+        try {
+            models.mongo.studentList.findOne({_id: id}, async function (err, data) {
+                if (err) {
+                    await errorRes.errorCustomMessage(res, {mes: err, err: {}})
+                }
+                if (data != null) {
+                    data.isDeleted = true,
+                        await data.save(async function (err, results) {
+                            if (err) {
+                                await errorRes.errorCustomMessage(res, {mes: err, err: {}})
+                            }
+                            successRes.delete(res);
+                        });
+                } else {
+                    await errorRes.errorCustomMessage(res, {mes: err, err: {}})
+                }
+            });
+        } catch (e) {
+            await errorRes.errorCustomMessage(res, {mes: e, err: {}})
+        }
+    },
+    studentDelete: async function (req, res, next) {
+        var id = req.body.id;
+        await validate.nullOrBlankAll(res, req.body, 'id');
+        try {
+
+            await models.mongo.studentList.deleteOne({_id: id}).then(resk=>{
+
+
+                successRes.successCustomMessage(res, {mes: "Delete Successfully", data: {}});
+
+            }).catch(err=>{
+
+                console.log(err);
+            })
+        } catch (e) {
+            await errorRes.errorCustomMessage(res, {mes: e, err: {}})
+        }
+    },
+
 }
 

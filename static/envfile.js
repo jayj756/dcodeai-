@@ -13,8 +13,8 @@ var dbConnection={
 //
 //     "url":"mongodb://localhost:27017/dcodeAI",
 //
-//     "user":"",
-//     "pass":"",
+//     "user":"rohit",
+//     "pass":"dcode123",
 //
 // }
 
@@ -22,12 +22,12 @@ var MongoDbConnection={
 
 
     // "url":"mongodb://localhost:27017/dcodeAI",
-    "url":"mongodb://35.154.102.141:27017/admin",
-    "user":"admin",
-    "pass":"changeme",
-
+    "url":"mongodb://35.154.102.141:27017/dcodeAI",
     // "user":"",
     // "pass":"",
+
+    "user":"rohit",
+    "pass":"dcode123",
 
 }
 

@@ -6,6 +6,8 @@ const teacherloginController = require("../../../controllers/userControllers/aut
 ///routes
 
 user.post('/login', teacherloginController.login);
+user.post('/teachermanager', teacherloginController.teachermanager);
+
 
 
 //responce

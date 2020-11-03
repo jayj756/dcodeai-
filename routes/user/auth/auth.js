@@ -10,6 +10,12 @@ user.post('/create', superloginController.create);
 user.post('/sendOtp', superloginController.sendOtp);
 user.post('/checkOtp', superloginController.checkOtp);
 user.post('/resetPassword', superloginController.resetPassword);
+user.post('/manager', superloginController.superAdminmanager);
+
+
+user.post('/adminupdate', superloginController.adminupdate);
+user.post('/adminDeactivate', superloginController.adminDeactivate);
+user.post('/adminDelete', superloginController.adminDelete);
 
 user.post('/registrationFormSuperAdmin', superloginController.registrationFormSuperAdmin);
 

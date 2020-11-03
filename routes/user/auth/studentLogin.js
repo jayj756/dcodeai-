@@ -12,5 +12,10 @@ user.post('/resetPassword', studentloginController.resetPassword);
 
 
 
+user.post('/studentDeactivate', studentloginController.studentDeactivate);
+user.post('/studentDelete', studentloginController.studentDelete);
+
+
+
 //responce
 module.exports = user;

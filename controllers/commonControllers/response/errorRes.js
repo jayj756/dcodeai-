@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const envfile = require('../../../../backend/static/envfile.js');
+const envfile = require('../../../static/envfile');
 module.exports = {
     insufficientDetail: async function (res) {
         res.status(400).send({
