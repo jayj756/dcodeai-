@@ -13,9 +13,7 @@ module.exports = {
 
     profileUpdate: async function (req, res, next) {
 
-        let firstname = req.body.firstname;
-        let lastName = req.body.lastName;
-        let name = req.body.name;
+
         let classDetail = req.body.classDetail;
         let schoolDetail = req.body.schoolDetail;
         let phoneNumber = req.body.phoneNumber;
@@ -24,6 +22,10 @@ module.exports = {
         let gender = req.body.gender;
 
 
+        if(aboutYou == null)
+        {
+            aboutYou = ""
+        }
         models.mongo.studentList.findOne({phoneNumber: phoneNumber}).then(
             async result => {
                 if (result != null) {
@@ -31,13 +33,14 @@ module.exports = {
 
                     await models.mongo.studentList.findOneAndUpdate({
                         phoneNumber: phoneNumber
-                    }, {$set: {firstname: firstname,lastName:lastName,name:name,
-                            classDetail:classDetail,schoolDetail:schoolDetail,photo:photo,aboutYou:aboutYou,gender:gender}}, function (err, user) {
+                    }, {$set: {classDetail:classDetail,schoolDetail:schoolDetail,
+                            photo:photo,aboutYou:aboutYou,gender:gender}}, async function (err, user) {
                         if (err) {
                             errorRes.errorCustomMessage(res, {mes: "Issue in Update Profile" + err});
                         }
 
-                        successRes.successCustomMessage(res, {mes: "Update Complete", data: {}});
+                        let ress = await models.mongo.studentList.findOne({phoneNumber: phoneNumber}).lean()
+                        successRes.successCustomMessage(res, {mes: "Update Complete", data: ress});
 
                     });
                 } else {
